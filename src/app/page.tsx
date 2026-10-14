@@ -220,10 +220,13 @@ export default async function Home() {
       {/* Testimonials */}
       <section className="border-y border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-          <Eyebrow>members</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            What training here feels like.
-          </h2>
+          <Eyebrow>sample testimonials</Eyebrow>
+<h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+  What training here feels like.
+</h2>
+<p className="mt-3 text-sm text-muted">
+  Illustrative examples, not actual member reviews.
+</p>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {testimonials.map((t) => (
               <figure
