@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 
 # Northform — Strength & Conditioning Studio
 
 A modern website concept for a boutique strength and conditioning studio, designed around coached classes, class scheduling, trainer profiles, trial bookings, and membership plans.
 
+=======
+# Northform — Strength & Conditioning Studio
+
+A modern website concept for a boutique strength and conditioning studio, designed around coached classes, class scheduling, trainer profiles, trial bookings, and membership plans.
+
+>>>>>>> 413a61e (refactor: upgrade UI to senior-engineer standard with Ember Orange design system)
 **Live website:** https://northform-web.vercel.app
 
 > **Project disclosure:** Northform is a fictional concept project by Shah, created to demonstrate web development and product design skills. It is not a representation of a real operating fitness studio.
@@ -62,6 +69,14 @@ Install dependencies:
 ```bash
 npm install
 ```
+<<<<<<< HEAD
+=======
+Create a `.env.local` file in the project root with these variables:
+
+```env
+
+Start the development server:
+>>>>>>> 413a61e (refactor: upgrade UI to senior-engineer standard with Ember Orange design system)
 
 ```bash
 npm run dev

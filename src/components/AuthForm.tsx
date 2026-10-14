@@ -12,7 +12,7 @@ function safeNext(next: string) {
 }
 
 const inputClass =
-  "h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted focus:border-accent";
+  "h-12 w-full rounded-2xl border border-border bg-surface px-4 text-sm text-foreground outline-none backdrop-blur-md transition-all duration-300 placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 export default function AuthForm({
   mode,
@@ -97,11 +97,11 @@ export default function AuthForm({
   const otherHref = `${isSignup ? "/login" : "/signup"}?next=${encodeURIComponent(target)}`;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="space-y-6">
       {isSignup && (
         <label className="block">
-          <span className="font-mono text-xs uppercase tracking-widest text-muted">
-            Name
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+            Full Name
           </span>
           <input
             type="text"
@@ -110,14 +110,15 @@ export default function AuthForm({
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Alex Mercer"
             className={`${inputClass} mt-2`}
           />
         </label>
       )}
 
       <label className="block">
-        <span className="font-mono text-xs uppercase tracking-widest text-muted">
-          Email
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          Email Address
         </span>
         <input
           type="email"
@@ -125,12 +126,13 @@ export default function AuthForm({
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="alex@example.com"
           className={`${inputClass} mt-2`}
         />
       </label>
 
       <label className="block">
-        <span className="font-mono text-xs uppercase tracking-widest text-muted">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
           Password
         </span>
         <input
@@ -140,37 +142,38 @@ export default function AuthForm({
           autoComplete={isSignup ? "new-password" : "current-password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
           className={`${inputClass} mt-2`}
         />
         {isSignup && (
-          <span className="mt-2 block text-xs text-muted">
+          <span className="mt-2 block font-mono text-[11px] text-muted">
             Minimum 8 characters.
           </span>
         )}
       </label>
 
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <div role="alert" className="rounded-2xl border border-danger/30 bg-danger/10 p-3.5 text-xs text-danger font-medium">
           {error}
-        </p>
+        </div>
       )}
       {notice && (
-        <p role="status" className="text-sm text-success">
+        <div role="status" className="rounded-2xl border border-success/30 bg-success/10 p-3.5 text-xs text-success font-medium">
           {notice}
-        </p>
+        </div>
       )}
 
       <button
         type="submit"
         disabled={loading}
-        className="h-12 w-full rounded-xl bg-accent text-sm font-semibold text-background transition-colors hover:bg-accent-hover disabled:opacity-60"
+        className="h-12 w-full rounded-2xl bg-accent text-sm font-semibold text-background transition-all duration-300 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 disabled:opacity-60"
       >
         {loading ? "Please wait..." : isSignup ? "Create account" : "Log in"}
       </button>
 
       <p className="text-center text-sm text-muted">
         {isSignup ? "Already a member? " : "New here? "}
-        <Link href={otherHref} className="text-accent hover:text-accent-hover">
+        <Link href={otherHref} className="font-semibold text-accent hover:text-accent-hover transition-colors">
           {isSignup ? "Log in" : "Create an account"}
         </Link>
       </p>

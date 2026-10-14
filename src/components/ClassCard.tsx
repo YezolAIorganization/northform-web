@@ -18,27 +18,29 @@ export type ScheduleClass = {
 function SpotsPill({ spots, booked }: { spots: number; booked: boolean }) {
   if (booked) {
     return (
-      <span className="rounded-full border border-success/40 bg-success/10 px-3 py-1 font-mono text-xs text-success">
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-success/40 bg-success/10 px-3 py-1 font-mono text-xs text-success">
+        <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
         Booked
       </span>
     );
   }
   if (spots === 0) {
     return (
-      <span className="rounded-full border border-border px-3 py-1 font-mono text-xs text-muted">
+      <span className="rounded-full border border-border bg-surface px-3 py-1 font-mono text-xs text-muted">
         Full
       </span>
     );
   }
   if (spots <= 3) {
     return (
-      <span className="rounded-full border border-accent px-3 py-1 font-mono text-xs text-accent">
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
+        <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
         {spots} left
       </span>
     );
   }
   return (
-    <span className="rounded-full border border-border px-3 py-1 font-mono text-xs text-muted">
+    <span className="rounded-full border border-border bg-surface px-3 py-1 font-mono text-xs text-muted">
       {spots} spots left
     </span>
   );
@@ -77,23 +79,25 @@ export default function ClassCard({ item }: { item: ScheduleClass }) {
   const isBooked = item.booked_by_me || successMsg;
 
   return (
-    <article className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-accent/60">
+    <article className="group relative flex flex-col justify-between rounded-3xl border border-border bg-surface p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-xs text-muted">
+          <p className="font-mono text-xs text-accent font-medium">
             {formatDay(item.starts_at)} &middot; {formatTime(item.starts_at)}
           </p>
-          <h3 className="mt-1 text-lg font-semibold">{item.class_name}</h3>
-          <p className="mt-1 text-sm text-muted">
-            {item.trainer_name} &middot; {item.duration_min} min
+          <h3 className="mt-2 text-xl font-semibold text-foreground tracking-tight group-hover:text-white transition-colors">
+            {item.class_name}
+          </h3>
+          <p className="mt-1.5 text-sm text-muted">
+            {item.trainer_name} &middot; <span className="font-mono text-xs">{item.duration_min} min</span>
           </p>
         </div>
         <SpotsPill spots={item.spots_left} booked={isBooked} />
       </div>
 
-      <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+      <div className="mt-8 flex items-center justify-between border-t border-border pt-4">
         {errorMsg ? (
-          <p className="text-xs text-danger">{errorMsg}</p>
+          <p className="text-xs text-danger font-medium">{errorMsg}</p>
         ) : isBooked ? (
           <p className="text-xs text-success font-medium">Class booked. See you there.</p>
         ) : isClosed ? (
@@ -109,9 +113,9 @@ export default function ClassCard({ item }: { item: ScheduleClass }) {
             type="button"
             onClick={handleBook}
             disabled={loading}
-            className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
+            className="rounded-xl bg-accent px-4 py-2 text-xs font-semibold text-background transition-all duration-200 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 disabled:opacity-50"
           >
-            {loading ? "Booking..." : "Book"}
+            {loading ? "Booking..." : "Book session"}
           </button>
         )}
       </div>

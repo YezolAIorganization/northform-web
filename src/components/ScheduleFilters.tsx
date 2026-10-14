@@ -30,17 +30,19 @@ function FilterSelect({
 
   return (
     <label className="flex flex-col gap-2">
-      <span className="font-mono text-xs uppercase tracking-widest text-muted">
+      <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
         {label}
       </span>
       <select
         value={searchParams.get(name) ?? ""}
         onChange={(e) => onChange(e.target.value)}
-        className="h-12 rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-colors focus:border-accent"
+        className="h-12 rounded-2xl border border-border bg-surface px-4 text-sm text-foreground outline-none backdrop-blur-md transition-all duration-300 hover:border-border-highlight focus:border-accent focus:ring-2 focus:ring-accent/20 cursor-pointer"
       >
-        <option value="">{allLabel}</option>
+        <option value="" className="bg-surface text-muted">
+          {allLabel}
+        </option>
         {options.map((o) => (
-          <option key={o.value} value={o.value}>
+          <option key={o.value} value={o.value} className="bg-surface text-foreground">
             {o.label}
           </option>
         ))}
@@ -65,7 +67,7 @@ export default function ScheduleFilters({
     searchParams.has("trainer");
 
   return (
-    <div className="flex flex-wrap items-end gap-4">
+    <div className="flex flex-wrap items-end gap-4 rounded-3xl border border-border bg-surface/40 p-6 backdrop-blur-md shadow-lg">
       <FilterSelect label="Day" name="day" allLabel="All days" options={days} />
       <FilterSelect
         label="Class type"
@@ -82,9 +84,9 @@ export default function ScheduleFilters({
       {active && (
         <Link
           href="/schedule"
-          className="pb-3 text-sm text-muted transition-colors hover:text-accent"
+          className="pb-3.5 text-xs font-mono font-medium text-danger transition-colors hover:text-danger/80 inline-flex items-center gap-1"
         >
-          Clear filters
+          <span>&times; Clear filters</span>
         </Link>
       )}
     </div>
