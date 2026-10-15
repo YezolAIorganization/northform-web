@@ -79,7 +79,10 @@ export default function ClassCard({ item }: { item: ScheduleClass }) {
   const isBooked = item.booked_by_me || successMsg;
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-3xl border border-border bg-surface p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/5">
+      <article
+      data-glow
+      className="glass-card group relative flex h-full flex-col justify-between rounded-3xl p-6"
+    >
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-xs text-accent font-medium">

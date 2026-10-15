@@ -1,3 +1,5 @@
+import NavShell from "@/components/motion/NavShell";
+import GlowTracker from "@/components/motion/GlowTracker";
 import { createClient } from "@/lib/supabase/server";
 import NavbarClient from "./NavbarClient";
 
@@ -14,15 +16,20 @@ export default async function Navbar() {
       : null;
 
   return (
-    <NavbarClient
-      user={
-        user
-          ? {
-              id: user.id,
-              fullName,
-            }
-          : null
-      }
-    />
+    <>
+      <GlowTracker />
+      <NavShell className="contents">
+        <NavbarClient
+          user={
+            user
+              ? {
+                  id: user.id,
+                  fullName,
+                }
+              : null
+          }
+        />
+      </NavShell>
+    </>
   );
 }

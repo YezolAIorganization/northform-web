@@ -11,8 +11,9 @@ function safeNext(next: string) {
   return next.startsWith("/") && !next.startsWith("//") ? next : "/schedule";
 }
 
+/* Glassmorphic input field styling with glowing Ember accent focus ring */
 const inputClass =
-  "h-12 w-full rounded-2xl border border-border bg-surface px-4 text-sm text-foreground outline-none backdrop-blur-md transition-all duration-300 placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
+  "h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 text-sm text-foreground outline-none backdrop-blur-xl transition-all duration-300 placeholder:text-muted/60 hover:border-white/20 focus:border-accent focus:bg-white/10 focus:ring-4 focus:ring-accent/15";
 
 export default function AuthForm({
   mode,
@@ -100,7 +101,7 @@ export default function AuthForm({
     <form onSubmit={onSubmit} className="space-y-6">
       {isSignup && (
         <label className="block">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-medium">
             Full Name
           </span>
           <input
@@ -117,7 +118,7 @@ export default function AuthForm({
       )}
 
       <label className="block">
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-medium">
           Email Address
         </span>
         <input
@@ -132,7 +133,7 @@ export default function AuthForm({
       </label>
 
       <label className="block">
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-medium">
           Password
         </span>
         <input
@@ -153,27 +154,37 @@ export default function AuthForm({
       </label>
 
       {error && (
-        <div role="alert" className="rounded-2xl border border-danger/30 bg-danger/10 p-3.5 text-xs text-danger font-medium">
+        <div
+          role="alert"
+          className="glass-card border-danger/40 bg-danger/10 p-4 text-xs text-danger font-medium rounded-2xl"
+        >
           {error}
         </div>
       )}
       {notice && (
-        <div role="status" className="rounded-2xl border border-success/30 bg-success/10 p-3.5 text-xs text-success font-medium">
+        <div
+          role="status"
+          className="glass-card border-success/40 bg-success/10 p-4 text-xs text-success font-medium rounded-2xl"
+        >
           {notice}
         </div>
       )}
 
+      {/* Button integrated with global tactile press mechanics */}
       <button
         type="submit"
         disabled={loading}
-        className="h-12 w-full rounded-2xl bg-accent text-sm font-semibold text-background transition-all duration-300 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 disabled:opacity-60"
+        className="btn-tactile h-12 w-full rounded-2xl bg-accent text-sm font-semibold text-background shadow-[0_12px_35px_-10px_rgba(255,91,46,0.6)] hover:bg-accent-hover hover:shadow-[0_18px_45px_-10px_rgba(255,91,46,0.8)] disabled:opacity-50 disabled:pointer-events-none"
       >
         {loading ? "Please wait..." : isSignup ? "Create account" : "Log in"}
       </button>
 
       <p className="text-center text-sm text-muted">
         {isSignup ? "Already a member? " : "New here? "}
-        <Link href={otherHref} className="font-semibold text-accent hover:text-accent-hover transition-colors">
+        <Link
+          href={otherHref}
+          className="font-semibold text-accent hover:text-accent-hover transition-colors"
+        >
           {isSignup ? "Log in" : "Create an account"}
         </Link>
       </p>

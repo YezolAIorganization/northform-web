@@ -1,8 +1,11 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import Button from "@/components/Button";
 import ClassCard, { type ScheduleClass } from "@/components/ClassCard";
 import ScheduleFilters from "@/components/ScheduleFilters";
+import PageHeader from "@/components/PageHeader";
+import Reveal from "@/components/motion/Reveal";
 import { dayKey, formatDay, formatDayLong } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +17,9 @@ export const metadata: Metadata = {
 };
 
 type Row = ScheduleClass & { class_type_id: string; trainer_id: string };
+
+const delay = (ms: number) =>
+  ({ "--nf-delay": `${ms}ms` }) as CSSProperties;
 
 export default async function SchedulePage({
   searchParams,
@@ -57,16 +63,14 @@ export default async function SchedulePage({
 
   return (
     <main className="flex-1">
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <p className="font-mono text-sm text-accent">&gt; schedule</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-          Class schedule
-        </h1>
-        <p className="mt-4 max-w-xl text-muted">
-          Book up to 14 days ahead. Cancel free until 2 hours before class.
-        </p>
+      <PageHeader
+        eyebrow="Schedule"
+        title="Class schedule"
+        description="Book up to 14 days ahead. Cancel free until 2 hours before class."
+      />
 
-        <div className="mt-10">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="nf-rise" style={delay(420)}>
           <ScheduleFilters
             days={days}
             types={(typesRes.data ?? []).map((t) => ({
@@ -87,25 +91,41 @@ export default async function SchedulePage({
         )}
 
         {!classesRes.error && filtered.length === 0 && (
-          <div className="mt-12 rounded-2xl border border-dashed border-border p-10 text-center">
-            <p className="font-semibold">No classes match your filters.</p>
-            <div className="mt-6">
-              <Button href="/schedule" variant="secondary">
-                Clear filters
-              </Button>
+          <Reveal>
+            <div
+              data-glow
+              className="relative mt-12 rounded-2xl border border-dashed border-border p-10 text-center"
+            >
+              <p className="font-semibold">No classes match your filters.</p>
+              <div className="mt-6">
+                <Button href="/schedule" variant="secondary">
+                  Clear filters
+                </Button>
+              </div>
             </div>
-          </div>
+          </Reveal>
         )}
 
-        <div className="mt-12 space-y-12">
+        <div className="mt-12 space-y-14">
           {Array.from(groups.entries()).map(([key, items]) => (
             <div key={key}>
-              <h2 className="text-xl font-semibold">
-                {formatDayLong(items[0].starts_at)}
-              </h2>
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
-                {items.map((item) => (
-                  <ClassCard key={item.id} item={item} />
+              <Reveal>
+                <div className="flex items-center gap-4">
+                  <h2 className="text-xl font-semibold">
+                    {formatDayLong(items[0].starts_at)}
+                  </h2>
+                  <span className="h-px flex-1 bg-linear-to-r from-border to-transparent" />
+                  <span className="font-mono text-xs text-muted">
+                    {items.length} {items.length === 1 ? "class" : "classes"}
+                  </span>
+                </div>
+              </Reveal>
+
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                {items.map((item, i) => (
+                  <Reveal key={item.id} delay={(i % 2) * 90} className="h-full">
+                    <ClassCard item={item} />
+                  </Reveal>
                 ))}
               </div>
             </div>

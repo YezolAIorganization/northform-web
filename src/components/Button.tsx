@@ -4,10 +4,10 @@ type Variant = "primary" | "secondary" | "ghost";
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-accent text-background shadow-[0_8px_30px_-10px_rgba(255,91,46,0.7)] hover:bg-accent-hover hover:shadow-[0_12px_35px_-8px_rgba(255,91,46,0.8)] active:translate-y-0.5",
+    "bg-accent text-background shadow-[0_12px_40px_-10px_rgba(255,91,46,0.6)] hover:shadow-[0_18px_50px_-10px_rgba(255,91,46,0.8)] hover:bg-accent-hover",
   secondary:
-    "border border-white/20 bg-white/5 text-foreground backdrop-blur-md hover:border-white/35 hover:bg-white/10 active:translate-y-0.5",
-  ghost: "text-muted hover:text-foreground hover:bg-white/5",
+    "border border-white/20 bg-white/5 text-foreground backdrop-blur-xl hover:border-accent/40 hover:bg-white/10 hover:shadow-[0_10px_30px_-10px_rgba(255,91,46,0.3)]",
+  ghost: "text-muted hover:text-foreground hover:bg-white/5 backdrop-blur-md",
 };
 
 function ArrowIcon() {
@@ -45,7 +45,7 @@ export default function Button({
   return (
     <Link
       href={href}
-      className={`group inline-flex h-12 items-center justify-center gap-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+      className={`group btn-tactile inline-flex h-12 items-center justify-center gap-3 rounded-full text-sm font-semibold ${
         arrow ? "pl-6 pr-2" : "px-6"
       } ${styles[variant]} ${className}`}
     >

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import PageHeader from "@/components/PageHeader";
+import Reveal from "@/components/motion/Reveal";
 
 export const dynamic = "force-dynamic";
 
@@ -36,54 +38,54 @@ export default async function TrainersPage() {
 
   return (
     <main className="flex-1">
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <p className="font-mono text-sm text-accent">&gt; coaches</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-          Coaches who explain the why.
-        </h1>
-        <p className="mt-4 max-w-xl text-muted">
-          Our coaches bring decades of combined experience in powerlifting, athletic conditioning, and movement mechanics.
-        </p>
+      <PageHeader
+        eyebrow="Coaches"
+        title="Coaches who explain the why."
+        description="Our coaches bring decades of combined experience in powerlifting, athletic conditioning, and movement mechanics."
+      />
 
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         {error ? (
-          <p className="mt-10 text-danger">
+          <p className="text-danger">
             Something went wrong loading trainers. Please try again.
           </p>
         ) : (
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {trainers.map((trainer) => {
+          <div className="grid gap-8 md:grid-cols-3">
+            {trainers.map((trainer, i) => {
               const photoUrl = trainer.image_url || defaultPhotos[trainer.name];
 
               return (
-                <article
-                  key={trainer.id}
-                  className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-accent/60"
-                >
-                  <div className="relative h-72 w-full overflow-hidden bg-background">
-                    {photoUrl ? (
-                      <Image
-                        src={photoUrl}
-                        alt={trainer.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center font-heading text-4xl font-bold text-accent">
-                        {trainer.name.charAt(0)}
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-linear-to-t from-surface via-transparent to-transparent" />
-                  </div>
+                <Reveal key={trainer.id} delay={i * 110} className="h-full">
+                  <article
+                    data-glow
+                    className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface"
+                  >
+                    <div className="relative h-72 w-full overflow-hidden bg-background">
+                      {photoUrl ? (
+                        <Image
+                          src={photoUrl}
+                          alt={trainer.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover object-center saturate-75 transition duration-700 group-hover:saturate-100"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center font-heading text-4xl font-bold text-accent">
+                          {trainer.name.charAt(0)}
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-linear-to-t from-surface via-transparent to-transparent" />
+                    </div>
 
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold">{trainer.name}</h2>
-                    <p className="mt-1 font-mono text-xs text-accent">{trainer.role}</p>
-                    <p className="mt-4 text-sm leading-relaxed text-muted">
-                      {trainer.bio}
-                    </p>
-                  </div>
-                </article>
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold">{trainer.name}</h2>
+                      <p className="mt-1 font-mono text-xs text-accent">{trainer.role}</p>
+                      <p className="mt-4 text-sm leading-relaxed text-muted">
+                        {trainer.bio}
+                      </p>
+                    </div>
+                  </article>
+                </Reveal>
               );
             })}
           </div>

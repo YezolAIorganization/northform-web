@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import AuthForm from "@/components/AuthForm";
+import AuthShell from "@/components/AuthShell";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Sign up | Northform" };
@@ -19,16 +20,12 @@ export default async function SignupPage({
   if (user) redirect("/schedule");
 
   return (
-    <main className="flex-1">
-      <section className="mx-auto max-w-md px-4 py-20 sm:px-6">
-        <p className="font-mono text-sm text-accent">&gt; sign up</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-          Create your account.
-        </h1>
-        <div className="mt-10">
-          <AuthForm mode="signup" next={next ?? "/schedule"} />
-        </div>
-      </section>
-    </main>
+    <AuthShell
+      eyebrow="Sign up"
+      title="Create your account."
+      description="Join Northform to book classes and track your sessions."
+    >
+      <AuthForm mode="signup" next={next ?? "/schedule"} />
+    </AuthShell>
   );
 }

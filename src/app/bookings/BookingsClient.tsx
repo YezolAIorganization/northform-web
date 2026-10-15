@@ -1,10 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { formatDay, formatTime } from "@/lib/format";
 import { cancelBooking } from "./actions";
 import type { BookingRow } from "./page";
 import Button from "@/components/Button";
+
+const delay = (ms: number) =>
+  ({ "--nf-delay": `${ms}ms` }) as CSSProperties;
+
+const tabClass = (active: boolean) =>
+  `rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
+    active
+      ? "bg-accent/15 text-accent shadow-[inset_0_0_0_1px_rgba(255,91,46,0.35)]"
+      : "text-muted hover:text-foreground"
+  }`;
 
 export default function BookingsClient({
   initialBookings,
@@ -42,41 +52,47 @@ export default function BookingsClient({
   }
 
   return (
-    <div className="mt-10">
-      <div className="flex border-b border-border">
+    <div>
+      <div
+        role="tablist"
+        aria-label="Booking history"
+        className="inline-flex gap-1 rounded-full border border-border bg-surface/60 p-1 backdrop-blur-xl"
+      >
         <button
           type="button"
+          role="tab"
+          aria-selected={tab === "upcoming"}
           onClick={() => setTab("upcoming")}
-          className={`pb-3 text-sm font-semibold transition-colors border-b-2 px-4 ${
-            tab === "upcoming"
-              ? "border-accent text-accent"
-              : "border-transparent text-muted hover:text-foreground"
-          }`}
+          className={tabClass(tab === "upcoming")}
         >
           Upcoming ({activeBookings.length})
         </button>
         <button
           type="button"
+          role="tab"
+          aria-selected={tab === "past"}
           onClick={() => setTab("past")}
-          className={`pb-3 text-sm font-semibold transition-colors border-b-2 px-4 ${
-            tab === "past"
-              ? "border-accent text-accent"
-              : "border-transparent text-muted hover:text-foreground"
-          }`}
+          className={tabClass(tab === "past")}
         >
-          Past & History ({pastBookings.length})
+          Past &amp; History ({pastBookings.length})
         </button>
       </div>
 
       {errorMsg && (
-        <div className="mt-6 rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm text-danger">
+        <div
+          role="alert"
+          className="nf-rise mt-6 rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm text-danger"
+        >
           {errorMsg}
         </div>
       )}
 
-      <div className="mt-8 space-y-4">
+      <div key={tab} className="mt-8 space-y-4">
         {displayed.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border p-12 text-center">
+          <div
+            data-glow
+            className="nf-rise relative rounded-2xl border border-dashed border-border p-12 text-center"
+          >
             <p className="font-semibold">
               {tab === "upcoming"
                 ? "Nothing booked yet. Your next session is one tap away."
@@ -89,7 +105,7 @@ export default function BookingsClient({
             )}
           </div>
         ) : (
-          displayed.map((item) => {
+          displayed.map((item, i) => {
             const isUpcoming = tab === "upcoming" && item.status === "booked";
             const isCancelling = cancellingId === item.booking_id;
             const isConfirming = confirmId === item.booking_id;
@@ -97,10 +113,13 @@ export default function BookingsClient({
             return (
               <article
                 key={item.booking_id}
-                className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-surface p-5 sm:flex-row sm:items-center"
+                data-glow
+                style={delay(Math.min(i, 6) * 70)}
+                className="nf-rise relative flex flex-col justify-between gap-4 rounded-2xl border border-border bg-surface/60 p-5 backdrop-blur-sm sm:flex-row sm:items-center"
               >
                 <div>
                   <div className="flex items-center gap-2">
+                    {isUpcoming && <span className="nf-pulse" aria-hidden="true" />}
                     <p className="font-mono text-xs text-muted">
                       {formatDay(item.starts_at)} &middot; {formatTime(item.starts_at)}
                     </p>
@@ -119,7 +138,7 @@ export default function BookingsClient({
                 {isUpcoming && (
                   <div className="flex items-center gap-3">
                     {isConfirming ? (
-                      <div className="flex flex-col gap-2 rounded-xl border border-border bg-background p-3 sm:flex-row sm:items-center">
+                      <div className="nf-rise flex flex-col gap-2 rounded-xl border border-border bg-background p-3 sm:flex-row sm:items-center">
                         <p className="text-xs text-muted">Cancel this class?</p>
                         <div className="flex gap-2">
                           <button

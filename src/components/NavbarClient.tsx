@@ -58,7 +58,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
 
   return (
     <header className="sticky top-0 z-50 px-4 pt-4">
-      <div className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full py-2 pl-5 pr-2 shadow-2xl backdrop-blur-xl">
+      <div className="glass nf-nav-pill mx-auto flex max-w-6xl items-center justify-between rounded-full py-2 pl-5 pr-2 shadow-2xl backdrop-blur-xl">
         <Logo />
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
@@ -115,7 +115,7 @@ export default function NavbarClient({ user }: NavbarClientProps) {
               {accountOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 top-14 w-52 rounded-2xl border border-white/10 bg-surface p-2 shadow-2xl backdrop-blur-2xl"
+                  className="nf-menu-in absolute right-0 top-14 w-52 rounded-2xl border border-white/10 bg-surface p-2 shadow-2xl backdrop-blur-2xl"
                 >
                   <div className="px-3 py-2 border-b border-border mb-1">
                     <p className="text-[10px] font-mono text-muted uppercase tracking-wider">Signed in as</p>
@@ -183,10 +183,12 @@ export default function NavbarClient({ user }: NavbarClientProps) {
             )}
           </svg>
         </button>
+
+        <span className="nf-nav-progress" aria-hidden="true" />
       </div>
 
       {open && (
-        <div className="glass absolute left-4 right-4 top-full mt-3 rounded-3xl p-4 md:hidden shadow-2xl backdrop-blur-2xl">
+        <div className="glass nf-menu-in absolute left-4 right-4 top-full mt-3 rounded-3xl p-4 md:hidden shadow-2xl backdrop-blur-2xl">
           <nav className="flex flex-col gap-1" aria-label="Mobile">
             {links.map((link) => (
               <Link

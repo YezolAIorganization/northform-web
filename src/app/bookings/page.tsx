@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import PageHeader from "@/components/PageHeader";
 import BookingsClient from "./BookingsClient";
 
 export const dynamic = "force-dynamic";
@@ -44,21 +45,21 @@ export default async function BookingsPage() {
 
   return (
     <main className="flex-1">
-      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
-        <p className="font-mono text-sm text-accent">&gt; dashboard</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-          My bookings
-        </h1>
-        <p className="mt-4 max-w-xl text-muted">
-          Manage your upcoming training sessions or review past history.
-        </p>
+      <PageHeader
+        eyebrow="Dashboard"
+        title="My bookings"
+        description="Manage your upcoming training sessions or review past history."
+      />
 
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         {error ? (
-          <p className="mt-10 text-danger">
+          <p className="text-danger">
             Something went wrong loading your bookings. Please try again.
           </p>
         ) : (
-          <BookingsClient initialBookings={bookings} />
+          <div className="max-w-4xl">
+            <BookingsClient initialBookings={bookings} />
+          </div>
         )}
       </section>
     </main>
