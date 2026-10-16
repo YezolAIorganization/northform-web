@@ -112,7 +112,7 @@ export default function PlansPage() {
                   <ul className="mt-6 space-y-3 border-t border-border pt-6 text-sm text-muted">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2">
-                        <span className="text-accent">&check;</span> {feature}
+                        <span className="text-accent">✓</span> {feature}
                       </li>
                     ))}
                   </ul>
